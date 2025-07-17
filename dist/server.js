@@ -14,5 +14,8 @@ mongoose_1.default
     app_1.default.listen(PORT, () => {
         console.log(`Example app listening on port http://localhost:${PORT}`);
     });
+    app_1.default.get('/api/hello', (req, res) => {
+        res.send('Hello from Express!');
+    });
 })
     .catch(console.error);
