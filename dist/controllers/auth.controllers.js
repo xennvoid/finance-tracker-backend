@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.refreshToken = exports.register = exports.login = void 0;
+exports.logout = exports.refreshToken = exports.register = exports.login = void 0;
 const user_model_1 = __importDefault(require("../models/user.model"));
 const apiError_1 = require("../utils/apiError");
 const errorTypes_1 = require("../constants/errors/errorTypes");
@@ -36,8 +36,8 @@ const login = (req, res, next) => __awaiter(void 0, void 0, void 0, function* ()
         const refreshToken = (0, jwt_1.generateToken)(user._id.toString(), 'refresh');
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
-            secure: true, // Change to HTTPS later
-            sameSite: 'none', // Change later to 'strict'
+            secure: true,
+            sameSite: 'none',
             expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
             path: '/',
         });
@@ -92,3 +92,18 @@ const refreshToken = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.refreshToken = refreshToken;
+const logout = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/',
+        });
+        res.status(200).json({ message: 'Logged out' });
+    }
+    catch (err) {
+        return next(err);
+    }
+});
+exports.logout = logout;
