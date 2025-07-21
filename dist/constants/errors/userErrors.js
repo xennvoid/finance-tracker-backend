@@ -12,4 +12,9 @@ exports.USER_ERROR_TYPES = {
         errorCode: 'user_not_found',
         message: 'User not found.',
     },
+    TEST_EMAIL_UPDATE_FORBIDDEN: {
+        statusCode: 403,
+        errorCode: 'test_email_update_forbidden',
+        message: 'Email address for test account cannot be changed.',
+    },
 };

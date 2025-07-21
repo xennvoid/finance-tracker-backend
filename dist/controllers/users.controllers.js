@@ -71,10 +71,15 @@ const checkFieldsAvailabilty = (req, res, next) => __awaiter(void 0, void 0, voi
 exports.checkFieldsAvailabilty = checkFieldsAvailabilty;
 const updateUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const updatedUser = yield user_model_1.default.findByIdAndUpdate(req.userId, req.body);
-        if (!updatedUser) {
+        const user = yield user_model_1.default.findById(req.userId);
+        if (!user) {
             throw new apiError_1.ApiError(userErrors_1.USER_ERROR_TYPES.NOT_FOUND.statusCode, userErrors_1.USER_ERROR_TYPES.NOT_FOUND.errorCode, userErrors_1.USER_ERROR_TYPES.NOT_FOUND.message);
         }
+        // 🔒 Prevent email update if user is test@gmail.com
+        if (user.email === 'test@gmail.com' && req.body.email && req.body.email !== user.email) {
+            throw new apiError_1.ApiError(userErrors_1.USER_ERROR_TYPES.TEST_EMAIL_UPDATE_FORBIDDEN.statusCode, userErrors_1.USER_ERROR_TYPES.TEST_EMAIL_UPDATE_FORBIDDEN.errorCode, userErrors_1.USER_ERROR_TYPES.TEST_EMAIL_UPDATE_FORBIDDEN.message);
+        }
+        yield user_model_1.default.findByIdAndUpdate(req.userId, req.body);
         res.status(200).json({
             message: 'Profile updated successfully',
         });
