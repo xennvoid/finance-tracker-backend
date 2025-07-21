@@ -20,8 +20,8 @@ app.use((0, morgan_1.default)('dev'));
 app.use((0, cors_1.default)({
     origin: [
         'http://localhost:5173',
-        'https://finance-tracker-frontend-kappa.vercel.app',
-        'https://vercel.com/xennvoids-projects/finance-tracker-frontend/BY3HLw5dYLcayLGeeuXXcMiS9iMq',
+        'https://finance-tracker-frontend-delta.vercel.app',
+        'https://finance-tracker-frontend-hzzac5vwo-xennvoids-projects.vercel.app',
     ],
     credentials: true,
 }));
